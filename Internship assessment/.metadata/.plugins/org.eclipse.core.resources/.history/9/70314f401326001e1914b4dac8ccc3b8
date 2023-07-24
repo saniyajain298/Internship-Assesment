@@ -1,0 +1,12 @@
+package com.springboot.test.entity;
+
+import jakarta.persistence.Entity;
+
+
+
+@Entity
+public class User {
+	private int userid;
+	private String name;
+	private String email;
+}

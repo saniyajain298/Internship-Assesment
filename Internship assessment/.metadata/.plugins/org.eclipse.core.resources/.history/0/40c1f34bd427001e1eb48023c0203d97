@@ -1,0 +1,9 @@
+package com.springboot.test.repository;
+
+import lombok.Getter;
+
+
+public class Temp {
+	private int id;
+	
+}

@@ -1,0 +1,35 @@
+package com.springboot.test.model;
+
+import org.springframework.stereotype.Component;
+
+
+public class Answer {
+	private int questionNo;
+	private String answer;
+	private int userid;
+	
+	public Answer(int questionNo, String answer, int userid) {
+		super();
+		this.questionNo = questionNo;
+		this.answer = answer;
+		this.userid = userid;
+	}
+	public int getQuestionNo() {
+		return questionNo;
+	}
+	public void setQuestionNo(int questionNo) {
+		this.questionNo = questionNo;
+	}
+	public String getAnswer() {
+		return answer;
+	}
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+	public int getUserid() {
+		return userid;
+	}
+	public void setUserid(int userid) {
+		this.userid = userid;
+	} 
+}

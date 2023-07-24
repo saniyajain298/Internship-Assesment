@@ -1,0 +1,75 @@
+package com.springboot.test.service;
+
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.springboot.test.entity.Answer;
+import com.springboot.test.entity.Base64file;
+import com.springboot.test.entity.User;
+import com.springboot.test.repository.AnswerRepository;
+import com.springboot.test.repository.Base64filerepository;
+import com.springboot.test.repository.QuestionRepository;
+import com.springboot.test.repository.UserRepository;
+import com.springboot.test.util.FileUtils;
+
+
+@Service
+public class SaveToDatabase {
+	
+
+	@Autowired
+	private Base64filerepository basefileRepo;
+	
+	@Autowired
+	public UserRepository userrepo;
+	
+	@Autowired
+	public AnswerRepository answerRepo; 
+	
+	@Autowired
+	public QuestionRepository questionRepo;
+	public Integer saveUserName(String answer)  {
+		User user = new User();
+		user.setName(answer);
+		userrepo.save(user);
+		return user.getUserid();
+	}
+	
+	public String saveEmail(String answer,Long userid) {
+		
+		User user = userrepo.findById(userid).get();
+		user.setEmail(answer);
+		userrepo.save(user);
+		return (String)answer;
+	}
+	public String saveFile(MultipartFile file , Long userid) throws IOException{
+	
+		Base64file uploadfile =  basefileRepo.save(Base64file.builder()
+				.filename(file.getOriginalFilename())
+				.filetype(file.getContentType())
+				.imageData(FileUtils.compressFile(file.getBytes()))
+				.userid(userid)
+				.build());
+		if(uploadfile!= null) {
+			return "file is successfully uploaded";
+		}
+		return "Error occur";
+	}
+	public String saveText(String answer, Long userid) {
+		User user = userrepo.findById(userid).get();
+		user.setText(answer);
+		userrepo.save(user);
+		return (String) answer;
+	}
+	
+	public String saveAnswer(String answer, Long userid, int questionNo) {
+		Answer ans = new Answer();
+		ans.setAnswer_text(answer);
+		ans.setUserid(userid);
+		ans.setQuestion_no(questionNo);
+		answerRepo.save(ans);
+		return "Successfull";
+	}
+}

@@ -1,0 +1,64 @@
+package com.springboot.test.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+
+@Entity
+public class Answer {
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+	private int answerid ;
+	
+	@OneToOne
+	@JoinColumn(name="question_no", referencedColumnName="questionid")
+	private Questions question_no;
+	
+	private String answer_text;
+	
+	@OneToOne
+	@JoinColumn(name="userid", referencedColumnName="userid")
+	private User userid;
+	public Answer() {
+		super();
+	}
+	public Answer(Questions question_no, String answer, User userid) {
+		super();
+		this.question_no = question_no;
+		this.answer_text = answer;
+		this.userid = userid;
+	}
+	public int getAnswerid() {
+		return answerid;
+	}
+	public void setAnswerid(int answerid) {
+		this.answerid = answerid;
+	}
+	public Questions getQuestion_no() {
+		return question_no;
+	}
+	public void setQuestion_no(Questions question_no) {
+		this.question_no = question_no;
+	}
+	public String getAnswer_text() {
+		return answer_text;
+	}
+	public void setAnswer_text(String answer_text) {
+		this.answer_text =answer_text;
+	}
+	public User getUserid() {
+		return userid;
+	}
+	public void setUserid(User userid2) {
+		this.userid = userid2;
+	}
+	@Override
+	public String toString() {
+		return "Answer [answerid=" + answerid + ", question_no=" + question_no + ", answer_text=" + answer_text + ", userid="
+				+ userid + "]";
+	}
+	
+	
+}

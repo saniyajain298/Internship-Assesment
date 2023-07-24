@@ -1,0 +1,8 @@
+server.port = 8081
+
+spring.datasource.url= jbbc:mysql://localhost:3307/user
+spring.datasource.usernamed = root
+spring.datasource.password = Jsaniya@298
+spring.datasource.driver-class-name= com.mysqli.cj.jdbc.Driver
+spring.jpa.show-sql = true
+spring.jpa.hibernate.ddl-auto=create 

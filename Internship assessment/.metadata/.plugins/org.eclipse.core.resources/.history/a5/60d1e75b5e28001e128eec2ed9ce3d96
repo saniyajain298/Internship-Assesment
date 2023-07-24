@@ -1,0 +1,22 @@
+package com.springboot.test.util;
+
+public class Container{
+	private Object value;
+	
+	
+	public Container(Object value) {
+		System.out.println("Inside constructor = "+ value);
+
+		this.value = value;
+	}
+	public String showClass() {
+		System.out.println(value.getClass().getName());
+		return value.getClass().getName();
+	}
+	public Object getValue() {
+		System.out.println("Inside container" + value);
+		return value;
+	}
+	
+	
+}

@@ -1,0 +1,77 @@
+package com.springboot.test.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Answer {
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+	private int Answerid;
+	private int question_no = 0;
+	private String answer= null;
+	private int userid= 0;
+	
+	
+	public Answer() {
+		super();
+	}
+
+
+	public Answer(int answerid, int questionNo, String answer, int userid) {
+		super();
+		Answerid = answerid;
+		this.question_no = questionNo;
+		this.answer = answer;
+		this.userid = userid;
+	}
+
+
+	public int getAnswerid() {
+		return Answerid;
+	}
+
+
+	public void setAnswerid(int answerid) {
+		Answerid = answerid;
+	}
+
+
+	public int getQuestionNo() {
+		return question_no;
+	}
+
+
+	public void setQuestionNo(int questionNo) {
+		this.question_no = questionNo;
+	}
+
+
+	public String getAnswer() {
+		return answer;
+	}
+
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
+
+	public int getUserid() {
+		return userid;
+	}
+
+
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Answer [Answerid=" + Answerid + ", question_no=" + question_no + ", answer=" + answer + ", userid="
+				+ userid + "]";
+	}
+	
+}

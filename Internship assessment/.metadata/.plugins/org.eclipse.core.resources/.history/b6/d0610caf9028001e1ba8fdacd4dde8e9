@@ -1,0 +1,124 @@
+package com.springboot.test.service;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.springboot.test.entity.Answer;
+import com.springboot.test.entity.Base64file;
+import com.springboot.test.entity.User;
+import com.springboot.test.repository.AnswerRepository;
+import com.springboot.test.repository.Base64filerepository;
+import com.springboot.test.repository.QuestionRepository;
+import com.springboot.test.repository.UserRepository;
+import com.springboot.test.util.FileUtils;
+import org.json.simple.JSONObject; 
+
+@Service
+public class SaveToDatabase {
+	
+
+	@Autowired
+	private Base64filerepository basefileRepo;
+	
+	@Autowired
+	public UserRepository userrepo;
+	
+	@Autowired
+	public AnswerRepository answerRepo; 
+	
+	@Autowired
+	public QuestionRepository questionRepo;
+	
+	JSONObject json = new JSONObject();
+	
+	@SuppressWarnings("unchecked")
+	public JSONObject saveUserName(String answer)  {
+		
+		try {
+			User user = new User();
+			user.setName(answer);
+			userrepo.save(user);
+			json.put("Status", "sucessfull");
+			json.put("response", user.getUserid());
+		}
+		catch(Exception e) {
+			json.put("Status", "error");
+			json.put("message", e.getMessage());
+		}
+		return json;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public JSONObject saveEmail(String answer,Long userid) {
+		System.out.println("Inside email ");
+		try {
+			User user = userrepo.findById(userid).get();
+			user.setEmail(answer);
+			System.out.println("Inside email try");
+			userrepo.save(user);
+			json.put("Status", "sucessfull");
+		}
+		catch(Exception e) {
+			System.out.println("Error occure" );
+			e.printStackTrace();
+			json.put("Status", "error");
+			json.put("message", e.getMessage());
+		}
+		return json;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public JSONObject saveFile(MultipartFile file , Long userid) throws IOException{
+	
+		try {
+			Base64file uploadfile =  basefileRepo.save(Base64file.builder()
+					.filename(file.getOriginalFilename())
+					.filetype(file.getContentType())
+					.imageData(FileUtils.compressFile(file.getBytes()))
+					.userid(userid)
+					.build());
+			json.put("Status", "sucessfull");
+		}
+		catch(Exception e) {
+			json.put("Status", "error");
+			json.put("message", e.getMessage());
+			
+		}
+		return json;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public JSONObject saveText(String answer, Long userid) {
+		try {
+			User user = userrepo.findById(userid).get();
+			user.setText(answer);
+			userrepo.save(user);
+			json.put("Status", "sucessfull");
+		}
+		catch(Exception e) {
+			json.put("Status", "error");
+			json.put("message", e.getMessage());
+		}
+		return json;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public JSONObject saveAnswer(String answer, Long userid, int questionNo) {
+		try {
+			Answer ans = new Answer();
+			ans.setAnswer_text(answer);
+			ans.setUserid(userid);
+			ans.setQuestion_no(questionNo);
+			answerRepo.save(ans);
+		}
+		catch(Exception e) {
+			json.put("Status", "error");
+			json.put("message", e.getMessage());
+		}
+		return json;
+	}
+}

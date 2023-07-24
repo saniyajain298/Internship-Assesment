@@ -1,0 +1,13 @@
+package com.springboot.test.entity;
+
+import jakarta.persistence.Entity;
+
+@Entity
+public class Base64file {
+
+		private Long fileid ;
+		private Long filename;
+		private Long filetype;
+		private byte[] imageData;
+		private Long userid;
+}

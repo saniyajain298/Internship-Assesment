@@ -1,0 +1,73 @@
+package com.springboot.test.entity;
+
+import jakarta.persistence.Entity;
+
+@Entity
+public class Answer {
+	private int Answerid;
+	private int questionNo;
+	private String answer;
+	private int userid;
+	
+	
+	public Answer() {
+		super();
+	}
+
+
+	public Answer(int answerid, int questionNo, String answer, int userid) {
+		super();
+		Answerid = answerid;
+		this.questionNo = questionNo;
+		this.answer = answer;
+		this.userid = userid;
+	}
+
+
+	public int getAnswerid() {
+		return Answerid;
+	}
+
+
+	public void setAnswerid(int answerid) {
+		Answerid = answerid;
+	}
+
+
+	public int getQuestionNo() {
+		return questionNo;
+	}
+
+
+	public void setQuestionNo(int questionNo) {
+		this.questionNo = questionNo;
+	}
+
+
+	public String getAnswer() {
+		return answer;
+	}
+
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
+
+	public int getUserid() {
+		return userid;
+	}
+
+
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Answer [Answerid=" + Answerid + ", questionNo=" + questionNo + ", answer=" + answer + ", userid="
+				+ userid + "]";
+	}
+	
+}

@@ -1,0 +1,112 @@
+package com.springboot.test.service;
+
+import java.io.IOException;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.springboot.test.entity.Answer;
+import com.springboot.test.entity.Base64file;
+import com.springboot.test.entity.Questions;
+import com.springboot.test.entity.User;
+import com.springboot.test.repository.AnswerRepository;
+import com.springboot.test.repository.Base64filerepository;
+import com.springboot.test.repository.QuestionRepository;
+import com.springboot.test.repository.UserRepository;
+import com.springboot.test.util.Container;
+import com.springboot.test.util.FileUtils;
+
+@Service
+public class StorageService {
+	
+	
+	@Autowired
+	private Base64filerepository basefileRepo;
+	
+	@Autowired
+	public UserRepository userrepo;
+	
+	@Autowired
+	public AnswerRepository answerRepo; 
+	
+	@Autowired
+	public QuestionRepository questionRepo;
+
+	
+	
+	public ResponseEntity<?> getRequest(Long userid, int questionNo,String  answer) throws IOException{
+		HttpHeaders responseHeaders = new HttpHeaders();
+		if(questionNo ==1 && userid==0) {
+			int getResponse= saveUserName(answer);
+			return new ResponseEntity<Integer>(getResponse,HttpStatus.CREATED);
+		}
+		
+		else if(questionNo ==2 && userid!=0) {
+			saveEmail(answer, userid);
+		}
+		
+		else if(questionNo == 4 && userid!=0) {
+			String response = saveText(answer, userid);
+			return new ResponseEntity<String>(response, HttpStatus.CREATED);
+		}
+		
+		else if((questionNo>4 && questionNo<104 ) && userid!=0) {
+			String response = saveAnswer(answer, userid, questionNo);
+			return new ResponseEntity<String>(response, HttpStatus.CREATED);
+		}
+		return new ResponseEntity<String>("Response", responseHeaders, HttpStatus.CREATED);
+		
+	}
+	
+	public String getRequest(Long userid,int questionNo, MultipartFile answer ) throws IOException{
+		saveFile((MultipartFile) answer, userid);
+		return "Successfull";
+		
+	}
+	public Integer saveUserName(String answer)  {
+		User user = new User();
+		user.setName(answer);
+		userrepo.save(user);
+		return user.getUserid();
+	}
+	
+	public String saveEmail(String answer,Long userid) {
+		
+		User user = userrepo.findById(userid).get();
+		user.setEmail(answer);
+		return (String)answer;
+	}
+	public String saveFile(MultipartFile file , Long userid) throws IOException{
+	
+		Base64file uploadfile =  basefileRepo.save(Base64file.builder()
+				.filename(file.getOriginalFilename())
+				.filetype(file.getContentType())
+				.imageData(FileUtils.compressFile(file.getBytes()))
+				.userid(userid)
+				.build());
+		if(uploadfile!= null) {
+			return "file is successfully uploaded";
+		}
+		return "Error occur";
+	}
+	public String saveText(String answer, Long userid) {
+		return (String) answer;
+	}
+	
+	public String saveAnswer(String answer, Long userid, int questionNo) {
+		Answer ans = new Answer();
+		ans.setAnswer_text(answer);
+		ans.setUserid(userid);
+		ans.setQuestion_no(questionNo);
+		answerRepo.save(ans);
+		return "Successfull";
+	}
+	
+	
+}

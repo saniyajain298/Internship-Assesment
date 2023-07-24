@@ -1,0 +1,9 @@
+package com.springboot.test.entity;
+
+import jakarta.persistence.Entity;
+
+@Entity
+public class Base64file {
+
+		
+}

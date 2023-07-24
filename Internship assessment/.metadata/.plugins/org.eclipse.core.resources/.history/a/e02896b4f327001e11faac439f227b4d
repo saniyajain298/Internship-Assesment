@@ -1,0 +1,11 @@
+package com.springboot.test.util;
+
+public class Container<T> {
+	T value;
+	
+	public String showClass() {
+		System.out.println(value.getClass().getName());
+		return value.getClass().getName();
+	}
+
+}

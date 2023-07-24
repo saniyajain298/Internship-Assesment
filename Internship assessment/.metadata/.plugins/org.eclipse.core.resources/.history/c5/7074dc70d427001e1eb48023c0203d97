@@ -1,0 +1,42 @@
+package com.springboot.test.entity;
+
+import java.util.Arrays;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Builder;
+import lombok.Getter;
+
+@Builder
+@Entity
+public class Base64file {
+
+		@Id @GeneratedValue(strategy=GenerationType.AUTO)
+		private Long fileid;
+		
+		@Column(unique=true)
+		private Long filename;
+		private Long filetype;
+		private byte[] imageData;
+		private Long userid;
+		
+		public Base64file() {
+			super();
+		}
+		public Base64file(Long fileid, Long filename, Long filetype, byte[] imageData, Long userid) {
+			super();
+			this.fileid = fileid
+			this.filename = filename;
+			this.filetype = filetype;
+			this.imageData = imageData;
+			this.userid = userid;
+		}
+		@Override
+		public String toString() {
+			return "Base64file [fileid=" + fileid + ", filename=" + filename + ", filetype=" + filetype + ", imageData="
+					+ Arrays.toString(imageData) + ", userid=" + userid + "]";
+		}
+}
